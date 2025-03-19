@@ -1,0 +1,19 @@
+name: Deploy terraform infrastructure
+on:
+    push:
+      branches:
+        - main
+permissions:
+  contents: write
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Workflow Webhook Action
+        uses: distributhor/workflow-webhook@v3.0.8
+        with:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          data: '{ "environment": "action" }'
