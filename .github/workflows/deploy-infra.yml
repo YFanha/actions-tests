@@ -16,9 +16,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup terraform
-        run: cd terraform
-
       - name: Download Terraform state
         uses: devgioele/terraform-state-artifact@v4
         with:
