@@ -21,6 +21,12 @@ jobs:
         with:
           terraform_version: "1.10.2"  
 
+      - name: Download Terraform state file
+        uses: actions/download-artifact@v3
+        with:
+          name: terraform-state
+          path: terraform/
+
       - name: Terraform init
         working-directory: terraform
         run: terraform init
@@ -31,7 +37,13 @@ jobs:
 
       - name: Terraform apply
         working-directory: terraform
-        run: terraform apply -auto-approve
+        run: terraform plan
+
+      - name: Upload Terraform state file
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-state
+          path: terraform/terraform.tfstate
 
       - name: Setup SSH Key
         run: |
