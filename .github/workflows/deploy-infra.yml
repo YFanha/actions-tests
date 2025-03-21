@@ -21,12 +21,22 @@ jobs:
         with:
           terraform_version: "1.10.2"  
 
-      - name: Download Terraform state file
-        continue-on-error: true
+      - name: Check if Terraform state artifact exists
+        id: check_artifact
+        run: |
+          if curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | grep -q "terraform-state"; then
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+
+      - name: Download Terraform state file (if exists)
+        if: env.exists == 'true'
         uses: actions/download-artifact@v3
         with:
           name: terraform-state
-          path: terraform/terraform.tfstate
+          path: terraform
 
       - name: Terraform init
         working-directory: terraform
