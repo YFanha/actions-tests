@@ -38,7 +38,7 @@ jobs:
 
       - name: Terraform apply
         working-directory: terraform
-        run: terraform destroy --auto-approve
+        run: terraform apply
     
       - name: Upload Artifact
         uses: badgerhobbs/terraform-state@v2
@@ -52,13 +52,3 @@ jobs:
           touch ~/.ssh/id_ed25519
           echo -e "${{secrets.SYS_ADM_SSHKEY}}" > ~/.ssh/id_ed25519
           chmod -R go= ~/.ssh
-
-      - name: "Install Ansible"
-        uses: alex-oleshkevich/setup-ansible@v1.0.0
-        with:
-          version: "2.14.16"
-
-      - name: Run ansible setup
-        working-directory: ansible
-        run: |
-          ansible-playbook -i cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/id_ed25519
