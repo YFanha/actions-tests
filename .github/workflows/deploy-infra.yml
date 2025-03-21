@@ -24,6 +24,7 @@ jobs:
         with:
           passphrase: 
           download_upload: download
+          statefile_location: terrastate
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -33,9 +34,32 @@ jobs:
       - name: Terraform init
         run: terraform init
 
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Terraform apply
+        run: terraform apply -auto-approve
+
+      - name: Upload Terraform state
+        uses: devgioele/terraform-state-artifact@v4
+        with:
+          passphrase: ${{ secrets.TF_STATE_PASSPHRASE }}
+          download_upload: upload
+          statefile_location: terrastate
+
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh/
           touch ~/.ssh/id_ed25519
           echo -e "${{secrets.SYS_ADM_SSHKEY}}" > ~/.ssh/id_ed25519
           chmod -R go= ~/.ssh
+
+      - name: "Install Ansible"
+        uses: alex-oleshkevich/setup-ansible@v1.0.0
+        with:
+          version: "2.14.16"
+
+      - name: Run ansible setup
+        run: |
+          cd ../ansible
+          ansible-playbook -i cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/id_ed25519
