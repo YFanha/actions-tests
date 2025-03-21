@@ -21,22 +21,12 @@ jobs:
         with:
           terraform_version: "1.10.2"  
 
-      - name: Check if Terraform state artifact exists
-        id: check_artifact
-        run: |
-          if curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-              "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | grep -q "terraform-state"; then
-            echo "exists=true" >> $GITHUB_ENV
-          else
-            echo "exists=false" >> $GITHUB_ENV
-          fi
-
-      - name: Download Terraform state file (if exists)
-        if: env.exists == 'true'
-        uses: actions/download-artifact@v3
+      - name: Download Artifact
+        uses: badgerhobbs/terraform-state@v2
         with:
-          name: terraform-state
-          path: terraform
+            operation: download
+            location: artifact
+        continue-on-error: true
 
       - name: Terraform init
         working-directory: terraform
@@ -49,12 +39,12 @@ jobs:
       - name: Terraform apply
         working-directory: terraform
         run: terraform plan
-
-      - name: Upload Terraform state file
-        uses: actions/upload-artifact@v3
+    
+      - name: Upload Artifact
+        uses: badgerhobbs/terraform-state@v2
         with:
-          name: terraform-state
-          path: terraform/terraform.tfstate
+            operation: upload
+            location: artifact
 
       - name: Setup SSH Key
         run: |
