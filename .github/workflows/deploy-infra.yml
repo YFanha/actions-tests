@@ -22,12 +22,15 @@ jobs:
           terraform_version: "1.10.2"  
 
       - name: Terraform init
+        working-directory: terraform
         run: terraform init
 
       - name: Terraform validate
+        working-directory: terraform
         run: terraform validate
 
       - name: Terraform apply
+        working-directory: terraform
         run: terraform apply -auto-approve
 
       - name: Setup SSH Key
@@ -43,6 +46,6 @@ jobs:
           version: "2.14.16"
 
       - name: Run ansible setup
+        working-directory: ansible
         run: |
-          cd ../ansible
           ansible-playbook -i cluster_hosts.ini setup.yml --user admin --private-key ~/.ssh/id_ed25519
