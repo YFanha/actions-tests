@@ -26,7 +26,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: terraform-state
-          path: terraform
+          path: terraform/terraform.tfstate
 
       - name: Terraform init
         working-directory: terraform
