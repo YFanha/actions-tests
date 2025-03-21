@@ -19,6 +19,12 @@ jobs:
       - name: Setup terraform
         run: cd terraform
 
+      - name: Download Terraform state
+        uses: devgioele/terraform-state-artifact@v4
+        with:
+          passphrase: 
+          download_upload: download
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
