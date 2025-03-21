@@ -38,7 +38,11 @@ jobs:
 
       - name: Terraform apply
         working-directory: terraform
-        run: terraform apply
+        run: terraform apply --auto-approve
+
+      - name: terraform destroy
+        working-directory: terraform
+        run: terraform destroy --auto-approve
     
       - name: Upload Artifact
         uses: badgerhobbs/terraform-state@v2
