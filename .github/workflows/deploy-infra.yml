@@ -22,7 +22,7 @@ jobs:
       # - name: Download Terraform state
       #   uses: devgioele/terraform-state-artifact@v4
       #   with:
-          # passphrase: ${{ secrets.TF_STATE_PASSPHRASE }}
+          # passphrase: 
           # download_upload: download
 
       - name: Setup Terraform
