@@ -43,7 +43,7 @@ jobs:
         run: terraform plan
     
       - name: Upload Artifact
-        run: ls -la terraform.tfstate.d
+        run: ls -la
 
       - name: Setup SSH Key
         run: |
