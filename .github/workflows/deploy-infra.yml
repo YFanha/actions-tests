@@ -40,7 +40,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform apply
-        run: terraform plan
+        run: terraform apply -auto-approve
     
       - name: Upload Artifact
         uses: badgerhobbs/terraform-state@v2
