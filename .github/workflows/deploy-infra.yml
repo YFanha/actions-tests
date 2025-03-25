@@ -24,10 +24,13 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: "1.10.2"  
+        
+      - name: mkdir
+        run: mkdir -p terraform/terraform.tfstate.d/${{ env.TF_WORKSPACE }}
 
       - name: LS
         run: ls -la terraform.tfstate.d
-        
+
       - name: LS
         run: ls -la terraform.tfstate.d/${{ env.TF_WORKSPACE }}
         
