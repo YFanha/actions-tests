@@ -49,6 +49,13 @@ jobs:
             location: artifact
             directory: terraform
 
+      - name: Upload Artifact
+        uses: badgerhobbs/terraform-state@v2
+        with:
+            operation: upload
+            location: artifact
+            directory: terraform
+
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh/
