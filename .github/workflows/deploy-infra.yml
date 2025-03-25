@@ -40,20 +40,10 @@ jobs:
         run: terraform validate
 
       - name: Terraform apply
-        run: terraform apply -auto-approve
+        run: terraform plan
     
       - name: Upload Artifact
-        uses: badgerhobbs/terraform-state@v2
-        with:
-            operation: upload
-            location: artifact
-            directory: terraform
-
-      - name: Upload Artifact
-        uses: badgerhobbs/terraform-state@v2
-        with:
-            operation: upload
-            location: artifact
+        run: ls -la
 
       - name: Setup SSH Key
         run: |
