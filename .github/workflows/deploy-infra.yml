@@ -25,6 +25,12 @@ jobs:
         with:
           terraform_version: "1.10.2"  
 
+      - name: LS
+        run: ls -la terraform.tfstate.d
+        
+      - name: LS
+        run: ls -la terraform.tfstate.d/${{ env.TF_WORKSPACE }}
+        
       - name: Download Artifact
         uses: badgerhobbs/terraform-state@v2
         with:
@@ -40,7 +46,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform apply
-        run: terraform apply -auto-approve
+        run: terraform plan
     
       - name: Upload Artifact
         uses: badgerhobbs/terraform-state@v2
