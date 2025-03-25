@@ -30,7 +30,7 @@ jobs:
         with:
             operation: download
             location: artifact
-            directory: terraform
+            directory: terraform/terraform.tfstate.d/${{ env.TF_WORKSPACE }}
         continue-on-error: true
 
       - name: Terraform init
@@ -43,7 +43,11 @@ jobs:
         run: terraform plan
     
       - name: Upload Artifact
-        run: ls terraform.tfstate.d/${{ env.TF_WORKSPACE }}
+        uses: badgerhobbs/terraform-state@v2
+        with:
+            operation: upload
+            location: artifact
+            directory: terraform/terraform.tfstate.d/${{ env.TF_WORKSPACE }}
 
       - name: Setup SSH Key
         run: |
