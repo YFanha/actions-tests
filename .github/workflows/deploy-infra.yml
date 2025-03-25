@@ -40,6 +40,7 @@ jobs:
             operation: download
             location: artifact
             directory: terraform/terraform.tfstate.d/${{ env.TF_WORKSPACE }}
+            github_token: ${{ secrets.GH_TOKEN }}
         continue-on-error: true
 
       - name: Terraform init
@@ -57,6 +58,7 @@ jobs:
             operation: upload
             location: artifact
             directory: terraform/terraform.tfstate.d/${{ env.TF_WORKSPACE }}
+            github_token: ${{ secrets.GH_TOKEN }}
 
       - name: Setup SSH Key
         run: |
