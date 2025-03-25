@@ -54,7 +54,6 @@ jobs:
         with:
             operation: upload
             location: artifact
-            directory: terraform
 
       - name: Setup SSH Key
         run: |
